@@ -14,6 +14,13 @@ class Post(BaseModel):
     id: str = uuid4()
 
 
+class PostUpdate(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+    published: Optional[bool] = None
+    rating: Optional[int] = None
+
+
 db = [
     {"title": "Living in Lagos: A Survival Guide",
         "content": "Lagos is a bustling city with a lot to offer, but it can be overwhelming for newcomers. Here are some tips to help you navigate the city.", "rating": 5, "id": uuid4()},
@@ -67,7 +74,7 @@ def delete_post(id: str):
 
 
 @app.put("/posts/{id}")
-def update_post(id: str, payload: Post):
+def update_post(id: str, payload: PostUpdate):
     post = find_post(id)
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
